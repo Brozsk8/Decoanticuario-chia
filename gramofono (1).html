@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Gramófono de bocina · DecoAnticuario Paris</title>
+<meta property="og:title" content="🪗 Gramófono vintage · ¡Míralo en tu sala en AR!"/>
+<meta property="og:description" content="Abre este link y toca Ver en tu espacio — aparece en tu sala en tamaño real. Sin apps."/>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#0D0B08;--gold:#B8860B;--cream:#FAF7F0;--warm:#E8E0D0;--muted:#7A6E5F;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;}
+
+header{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--warm);background:rgba(250,247,240,.97);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px);}
+.logo{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);text-decoration:none;}
+.back{font-size:13px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:5px;}
+
+.layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 53px);}
+
+/* VIEWER */
+.vc{background:var(--warm);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;gap:12px;position:sticky;top:53px;height:calc(100vh - 53px);}
+
+model-viewer{
+  width:100%;height:100%;max-height:480px;
+  --progress-bar-color:var(--gold);
+  border-radius:14px;overflow:hidden;
+  background:linear-gradient(135deg,#f0e8d8,#e8dcc8);
+}
+
+/* AR Button slot */
+.ar-btn{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--cream);
+  border:none;border-radius:40px;
+  font-family:'Jost',sans-serif;font-size:14px;font-weight:500;
+  padding:14px 28px;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  white-space:nowrap;
+  box-shadow:0 4px 20px rgba(13,11,8,.3);
+  transition:background .2s;
+}
+.ar-btn:hover{background:#2a2520;}
+
+/* Scale indicator */
+.scale-bar{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(13,11,8,.06);
+  border:1px solid rgba(13,11,8,.1);
+  border-radius:30px;
+  padding:8px 16px;
+  width:100%;max-width:340px;
+  justify-content:space-between;
+}
+.scale-label{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;}
+.scale-track{flex:1;height:4px;background:var(--warm);border-radius:2px;margin:0 10px;position:relative;}
+.scale-fill{height:100%;border-radius:2px;background:var(--gold);transition:width .3s;}
+.scale-pct{font-size:13px;font-weight:500;color:var(--ink);min-width:38px;text-align:right;}
+.scale-controls{display:flex;gap:6px;}
+.scale-btn{width:28px;height:28px;border-radius:50%;border:1px solid rgba(13,11,8,.15);background:white;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);transition:background .15s;}
+.scale-btn:hover{background:var(--warm);}
+
+.hint{font-size:11px;color:var(--muted);text-align:center;letter-spacing:.03em;}
+
+/* AR overlay inside model-viewer */
+.ar-overlay{
+  position:absolute;top:12px;left:50%;transform:translateX(-50%);
+  background:rgba(13,11,8,.75);color:white;
+  border-radius:20px;padding:6px 14px;
+  font-family:'Jost',sans-serif;font-size:12px;
+  display:flex;align-items:center;gap:6px;
+  backdrop-filter:blur(4px);
+  white-space:nowrap;
+}
+.ar-dot-live{width:6px;height:6px;border-radius:50%;background:#6DBF7E;animation:lp 1.4s ease-in-out infinite;}
+@keyframes lp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+
+/* INFO */
+.info{padding:36px 40px 40px 44px;display:flex;flex-direction:column;overflow-y:auto;}
+.cat{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.pname{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,44px);line-height:1.1;margin-bottom:6px;}
+.pname em{font-style:italic;color:var(--gold);}
+.ar-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;}
+.adot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:lp 1.4s ease-in-out infinite;}
+.pdesc{font-size:15px;line-height:1.85;color:var(--muted);border-left:2px solid var(--gold);padding-left:18px;margin-bottom:26px;}
+.plabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.price{font-family:'Playfair Display',serif;font-size:36px;margin-bottom:4px;}
+.pnote{font-size:12px;color:var(--muted);margin-bottom:26px;}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--warm);border:1px solid var(--warm);border-radius:10px;overflow:hidden;margin-bottom:26px;}
+.sp{background:var(--cream);padding:13px 17px;}
+.sl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sv{font-size:14px;font-weight:500;}
+.shlabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;}
+.shrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.sb{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:30px;border:none;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity .15s;}
+.sb:hover{opacity:.85;}
+.sb.wa{background:#25D366;color:white;}
+.sb.fb{background:#1877F2;color:white;}
+.sb.em{background:var(--warm);color:var(--ink);}
+.sb.cp{background:var(--ink);color:var(--cream);}
+.sb svg{width:14px;height:14px;flex-shrink:0;}
+.contact{background:var(--ink);border-radius:12px;padding:22px 26px;color:var(--cream);}
+.ct{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:6px;}
+.cd{font-size:13px;color:rgba(250,247,240,.55);line-height:1.7;margin-bottom:16px;}
+.cb{display:inline-flex;align-items:center;gap:7px;background:#25D366;color:white;padding:11px 22px;border-radius:30px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;text-decoration:none;}
+
+@media(max-width:700px){
+  .layout{grid-template-columns:1fr;}
+  .vc{position:relative;top:0;height:420px;padding:16px;}
+  model-viewer{max-height:300px;}
+  .info{padding:24px 20px 48px;}
+  .shrow{flex-direction:column;}
+  .sb{justify-content:center;}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.info>*{animation:fadeUp .6s ease both;}
+.info>*:nth-child(1){animation-delay:.05s}
+.info>*:nth-child(2){animation-delay:.12s}
+.info>*:nth-child(3){animation-delay:.18s}
+.info>*:nth-child(4){animation-delay:.24s}
+.info>*:nth-child(5){animation-delay:.30s}
+.info>*:nth-child(6){animation-delay:.36s}
+.info>*:nth-child(7){animation-delay:.42s}
+.info>*:nth-child(8){animation-delay:.48s}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Catálogo
+  </a>
+  <a href="index.html" class="logo">DecoAnticuario Paris</a>
+  <span style="font-size:11px;color:var(--muted)">Chía · CO</span>
+</header>
+
+<div class="layout">
+
+  <!-- VISOR AR -->
+  <div class="vc">
+    <model-viewer
+      id="mv"
+      src="producto.glb"
+      ios-src="producto.usdz"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      ar-scale="fixed"
+      camera-controls
+      auto-rotate
+      auto-rotate-delay="2000"
+      rotation-per-second="15deg"
+      shadow-intensity="1.2"
+      alt="Gramófono vintage en 3D"
+      style="width:100%;height:100%;max-height:480px;border-radius:14px;overflow:hidden;">
+
+      <!-- Botón AR -->
+      <button slot="ar-button" class="ar-btn">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+        Ver en tu espacio
+      </button>
+
+      <!-- Indicador AR activo -->
+      <div class="ar-overlay" slot="default">
+        <span class="ar-dot-live"></span>
+        AR · Tamaño real
+      </div>
+
+    </model-viewer>
+
+    <!-- Barra de escala -->
+    <div class="scale-bar">
+      <span class="scale-label">Tamaño</span>
+      <div class="scale-track">
+        <div class="scale-fill" id="scaleFill" style="width:100%"></div>
+      </div>
+      <span class="scale-pct" id="scalePct">100%</span>
+      <div class="scale-controls">
+        <button class="scale-btn" onclick="changeScale(-10)" title="Reducir">−</button>
+        <button class="scale-btn" onclick="resetScale()" title="Tamaño real">⌖</button>
+        <button class="scale-btn" onclick="changeScale(10)" title="Aumentar">+</button>
+      </div>
+    </div>
+
+    <p class="hint">Arrastra para rotar · Pellizca para zoom · ⌖ restablece tamaño real</p>
+  </div>
+
+  <!-- INFO -->
+  <div class="info">
+    <p class="cat">Música · Antigüedades · Colección</p>
+
+    <h1 class="pname">Gramófono<br/><em>de bocina</em></h1>
+
+    <span class="ar-badge">
+      <span class="adot"></span>
+      Realidad aumentada · Tamaño real bloqueado
+    </span>
+
+    <p class="pdesc">
+      Pieza original de colección en excelente estado de conservación. Bocina dorada original intacta. Mecanismo de cuerda funcionando perfectamente. Una joya para amantes del arte y la historia de la música.
+    </p>
+
+    <p class="plabel">Precio</p>
+    <p class="price">$1.800.000</p>
+    <p class="pnote">COP · Segunda mano · Precio negociable</p>
+
+    <div class="specs">
+      <div class="sp"><p class="sl">Estado</p><p class="sv">Excelente</p></div>
+      <div class="sp"><p class="sl">Época</p><p class="sv">Circa 1920</p></div>
+      <div class="sp"><p class="sl">Material</p><p class="sv">Metal / latón</p></div>
+      <div class="sp"><p class="sl">Modelo 3D</p><p class="sv">Polycam AR</p></div>
+    </div>
+
+    <p class="shlabel">Compartir esta pieza</p>
+    <div class="shrow">
+      <a class="sb wa" href="https://wa.me/?text=Mira%20este%20gram%C3%B3fono%20vintage%20en%20realidad%20aumentada%20en%20tu%20casa%20%F0%9F%AA%97%20https%3A%2F%2Fbrozsk8.github.io%2FDecoanticuario-chia%2Fgramofono.html" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a class="sb fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbrozsk8.github.io%2FDecoanticuario-chia%2Fgramofono.html" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+      <a class="sb em" href="mailto:?subject=Gram%C3%B3fono%20vintage%20%C2%B7%20DecoAnticuario%20Paris&body=Mira%20esta%20pieza%3A%20https%3A%2F%2Fbrozsk8.github.io%2FDecoanticuario-chia%2Fgramofono.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        Correo
+      </a>
+      <button class="sb cp" onclick="copyLink()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span id="cpTxt">Copiar link</span>
+      </button>
+    </div>
+
+    <div class="contact">
+      <h3 class="ct">¿Te interesa esta pieza?</h3>
+      <p class="cd">Escríbenos por WhatsApp. Coordinamos entrega en Chía o Bogotá.</p>
+      <a class="cb" href="https://wa.me/573001234567?text=Hola%2C%20vi%20el%20gram%C3%B3fono%20vintage%20en%20el%20cat%C3%A1logo%20AR%20y%20me%20interesa" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Consultar por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Scale control
+let currentScale = 100;
+const mv = document.getElementById('mv');
+
+function updateScaleUI() {
+  document.getElementById('scalePct').textContent = currentScale + '%';
+  document.getElementById('scaleFill').style.width = Math.min(currentScale, 200) / 2 + '%';
+  // Apply scale via camera orbit zoom approximation
+  const factor = currentScale / 100;
+  mv.style.transform = 'scale(' + factor + ')';
+  mv.style.transformOrigin = 'center center';
+}
+
+function changeScale(delta) {
+  currentScale = Math.max(10, Math.min(200, currentScale + delta));
+  updateScaleUI();
+}
+
+function resetScale() {
+  currentScale = 100;
+  mv.style.transform = 'scale(1)';
+  document.getElementById('scalePct').textContent = '100%';
+  document.getElementById('scaleFill').style.width = '50%';
+}
+
+function copyLink() {
+  navigator.clipboard.writeText('https://brozsk8.github.io/Decoanticuario-chia/gramofono.html').then(() => {
+    const t = document.getElementById('cpTxt');
+    t.textContent = '¡Copiado!';
+    setTimeout(() => t.textContent = 'Copiar link', 2500);
+  });
+}
+
+// Show scale bar only on desktop, hide on mobile when in AR
+updateScaleUI();
+</script>
+</body>
+</html>

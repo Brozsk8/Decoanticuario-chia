@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DecoAnticuario Paris · Piezas únicas en AR</title>
+<meta name="description" content="Visualiza nuestras piezas únicas en tu espacio antes de comprar. Realidad aumentada sin apps."/>
+<meta property="og:title" content="DecoAnticuario Paris · Ver piezas en AR"/>
+<meta property="og:description" content="Mira cómo quedan nuestras antigüedades en TU casa antes de comprar. Sin descargas."/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#0D0B08;--gold:#B8860B;--gold-light:#D4A843;--gold-pale:#F5EDD6;--cream:#FAF7F0;--warm:#E8E0D0;--muted:#7A6E5F;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;position:relative;}
+.hero-eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;animation:fadeUp .8s ease both;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(44px,10vw,88px);line-height:1.05;margin-bottom:8px;animation:fadeUp .8s .1s ease both;}
+.hero-title em{font-style:italic;color:var(--gold);}
+.hero-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(16px,3vw,26px);color:var(--muted);margin-bottom:36px;animation:fadeUp .8s .2s ease both;}
+.hero-desc{font-size:15px;color:var(--muted);max-width:420px;line-height:1.8;margin-bottom:44px;animation:fadeUp .8s .3s ease both;}
+.hero-desc strong{color:var(--ink);font-weight:500;}
+.hero-cta{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--cream);padding:15px 34px;border-radius:40px;font-size:13px;font-weight:500;letter-spacing:.07em;text-decoration:none;text-transform:uppercase;transition:background .2s,transform .15s;animation:fadeUp .8s .4s ease both;}
+.hero-cta:hover{background:var(--gold);transform:scale(1.03);}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);animation:fadeUp 1s .8s ease both;}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sp 2s ease-in-out infinite;}
+@keyframes sp{0%,100%{transform:scaleY(1);opacity:1}50%{transform:scaleY(.5);opacity:.4}}
+
+/* STRIP */
+.strip{background:var(--ink);padding:13px 0;overflow:hidden;white-space:nowrap;margin-bottom:72px;}
+.strip-inner{display:inline-block;animation:marquee 20s linear infinite;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-pale);}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* CATALOG */
+.catalog{max-width:1080px;margin:0 auto;padding:0 24px 90px;}
+.catalog-header{text-align:center;margin-bottom:52px;}
+.catalog-label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.catalog-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,42px);}
+.catalog-title em{font-style:italic;color:var(--gold);}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;}
+.card{background:white;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:transform .3s;}
+.card:hover{transform:scale(.99);}
+.card:hover .cimg{transform:scale(1.05);}
+.card:hover .cover{opacity:1;}
+.img-wrap{height:300px;overflow:hidden;background:var(--gold-pale);position:relative;display:flex;align-items:center;justify-content:center;}
+.cimg{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--gold);width:100%;height:100%;}
+.cover{position:absolute;inset:0;background:rgba(13,11,8,.72);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
+.ar-pill{background:var(--gold);color:var(--ink);padding:11px 26px;border-radius:28px;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:7px;}
+.cbody{padding:22px;border-top:1px solid var(--warm);}
+.ccat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.cname{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:4px;}
+.cdesc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.cfooter{display:flex;align-items:center;justify-content:space-between;}
+.cprice{font-family:'Playfair Display',serif;font-size:21px;}
+.ctag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:4px 10px;border-radius:18px;display:flex;align-items:center;gap:5px;}
+.cdot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:p 1.5s ease-in-out infinite;}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* SHARE */
+.share{background:var(--ink);padding:72px 24px;text-align:center;}
+.share-ey{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+.share-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,48px);color:var(--cream);margin-bottom:14px;line-height:1.15;}
+.share-title em{color:var(--gold-light);font-style:italic;}
+.share-desc{font-size:15px;color:rgba(250,247,240,.5);max-width:400px;margin:0 auto 44px;line-height:1.8;}
+.share-btns{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.sbt{display:flex;align-items:center;gap:7px;padding:13px 26px;border-radius:38px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;border:none;transition:transform .15s,opacity .15s;}
+.sbt:hover{transform:scale(1.05);opacity:.9;}
+.sbt.wa{background:#25D366;color:white;}
+.sbt.fb{background:#1877F2;color:white;}
+.sbt.cp{background:var(--gold);color:var(--ink);}
+.sbt svg{width:15px;height:15px;}
+
+footer{background:var(--ink);border-top:1px solid rgba(184,134,11,.2);padding:28px 24px;text-align:center;}
+.flogo{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold-pale);margin-bottom:6px;}
+.fnote{font-size:12px;color:rgba(250,247,240,.3);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr;gap:1px;}
+  .share-btns{flex-direction:column;align-items:center;}
+  .sbt{width:100%;max-width:260px;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <p class="hero-eyebrow">DecoAnticuario Paris · Chía, Colombia</p>
+  <h1 class="hero-title">Deco<em>Anticuario</em><br/>Paris</h1>
+  <p class="hero-sub">Piezas únicas con historia</p>
+  <p class="hero-desc">Ahora puedes <strong>ver cada pieza en tu espacio</strong> antes de comprar. Realidad aumentada real. Sin apps. Sin descargas. Solo abre el link.</p>
+  <a href="#catalogo" class="hero-cta">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    Ver piezas en AR
+  </a>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>Explorar</span></div>
+</section>
+
+<div class="strip">
+  <span class="strip-inner">✦ Realidad aumentada en tu celular &nbsp;&nbsp;&nbsp; ✦ Sin descargar nada &nbsp;&nbsp;&nbsp; ✦ Ve la pieza en tu sala antes de comprar &nbsp;&nbsp;&nbsp; ✦ Colecciones únicas &nbsp;&nbsp;&nbsp; ✦ Segunda mano con historia &nbsp;&nbsp;&nbsp; ✦ Realidad aumentada en tu celular &nbsp;&nbsp;&nbsp; ✦ Sin descargar nada &nbsp;&nbsp;&nbsp; ✦ Ve la pieza en tu sala antes de comprar &nbsp;&nbsp;&nbsp; ✦ Colecciones únicas &nbsp;&nbsp;&nbsp; ✦ Segunda mano con historia &nbsp;&nbsp;&nbsp;</span>
+</div>
+
+<section class="catalog" id="catalogo">
+  <div class="catalog-header reveal">
+    <p class="catalog-label">Colección disponible</p>
+    <h2 class="catalog-title">Piezas que puedes<br/><em>ver en tu espacio</em></h2>
+  </div>
+
+  <div class="grid">
+    <a href="gramofono.html" class="card reveal">
+      <div class="img-wrap">
+        <div class="placeholder">
+          <svg width="56" height="56" viewBox="0 0 60 60" fill="none">
+            <circle cx="20" cy="42" r="10" stroke="#B8860B" stroke-width="1.5"/>
+            <path d="M20 32 L20 10 Q20 4 32 8 L48 14" stroke="#B8860B" stroke-width="1.5" fill="none"/>
+            <ellipse cx="48" cy="22" rx="12" ry="8" stroke="#B8860B" stroke-width="1.5" fill="none"/>
+          </svg>
+          Gramófono vintage
+        </div>
+        <div class="cover">
+          <div class="ar-pill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            Ver en AR
+          </div>
+        </div>
+      </div>
+      <div class="cbody">
+        <p class="ccat">Música · Antigüedades</p>
+        <h3 class="cname">Gramófono de bocina</h3>
+        <p class="cdesc">Pieza original de colección. Bocina dorada original. Mecanismo funcionando.</p>
+        <div class="cfooter">
+          <span class="cprice">$1.800.000</span>
+          <span class="ctag"><span class="cdot"></span>AR listo</span>
+        </div>
+      </div>
+    </a>
+
+    <div class="card reveal" style="opacity:.45;pointer-events:none;">
+      <div class="img-wrap" style="background:var(--warm);">
+        <div class="placeholder" style="color:var(--muted);">Próxima pieza</div>
+      </div>
+      <div class="cbody">
+        <p class="ccat">Próximamente</p>
+        <h3 class="cname">Nueva pieza</h3>
+        <p class="cdesc">Escaneando y preparando para AR. Vuelve pronto.</p>
+        <div class="cfooter"><span class="cprice" style="color:var(--muted)">—</span><span class="ctag" style="border-color:var(--muted);color:var(--muted);">En proceso</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="share">
+  <p class="share-ey">Comparte la magia</p>
+  <h2 class="share-title">¿Conoces a alguien que<br/>busque algo <em>especial?</em></h2>
+  <p class="share-desc">Envíale el catálogo. En un tap verá nuestras piezas en su propia sala.</p>
+  <div class="share-btns">
+    <a class="sbt wa" href="https://wa.me/?text=Mira%20este%20anticuario%20donde%20puedes%20ver%20las%20piezas%20en%20realidad%20aumentada%20en%20tu%20casa%20%F0%9F%AA%9E%20https%3A%2F%2Fbrozsk8.github.io%2FDecoanticuario-chia" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Compartir por WhatsApp
+    </a>
+    <a class="sbt fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbrozsk8.github.io%2FDecoanticuario-chia" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Compartir en Facebook
+    </a>
+    <button class="sbt cp" onclick="copyMain()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      <span id="cpMain">Copiar link del catálogo</span>
+    </button>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">DecoAnticuario Paris</div>
+  <p class="fnote">Chía, Cundinamarca · AR sin apps · Solo abre el link</p>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);} });
+},{threshold:.1});
+reveals.forEach(r=>obs.observe(r));
+
+function copyMain(){
+  navigator.clipboard.writeText('https://brozsk8.github.io/Decoanticuario-chia').then(()=>{
+    const b=document.getElementById('cpMain');
+    b.textContent='¡Copiado!';
+    setTimeout(()=>b.textContent='Copiar link del catálogo',2500);
+  });
+}
+</script>
+</body>
+</html>
